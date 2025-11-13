@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sweet Memory</title>
+  <!-- Romantic + clean fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0; padding: 20px;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7, #fbc2eb, #a1c4fd);
+      font-family: 'Poppins', sans-serif;
+      color: #73264d;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .memory-container {
+      background: linear-gradient(120deg, #fffafc, #ffe2f3);
+      box-shadow: 0 0 25px #ffb3d9, 0 0 55px #d72660;
+      border-radius: 40px;
+      max-width: 800px;   /* smaller than before */
+      width: 95%;
+      padding: 20px 20px 30px;
+      box-sizing: border-box;
+    }
+
+    .memory-container h2 {
+      font-family: 'Great Vibes', cursive, 'Segoe UI', sans-serif;
+      font-size: 2.4rem;
+      margin-bottom: 24px;
+      color: #cf2963;
+      text-shadow: 0 2px 14px #ffbbe9cc;
+    }
+
+    /* Flip Card Styles */
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      max-width: 380px;
+      height: 600px;
+      margin: 0 auto 24px;
+      perspective: 1000px;
+      border-radius: 20px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(213, 94, 146, 0.35);
+      cursor: pointer;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+      box-shadow: 0 12px 28px rgba(231, 76, 134, 0.6);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .flip-card-front img,
+    .flip-card-front video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      display: block;
+    }
+
+    .flip-card-back {
+      background: linear-gradient(135deg, #ffd8e4, #ffeaf2);
+      color: #af2e6a;
+      padding: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transform: rotateY(180deg);
+      font-family: 'Dancing Script', cursive;  /* romantic font */
+      font-size: 1.6rem;
+      line-height: 1.9;
+      font-weight: 500;
+    }
+
+    .next-page-btn {
+      margin-top: 15px;
+      background: linear-gradient(90deg, #fa5595, #eb4cbb);
+      border: none;
+      border-radius: 40px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 12px 36px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #ff8aae91;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .next-page-btn:hover {
+      background: linear-gradient(90deg, #eb4cbb, #fa5595);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .memory-container h2 {
+        font-size: 1.9rem;
+      }
+      .flip-card {
+        height: 320px;
+      }
+      .flip-card-back {
+        font-size: 1.2rem;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="memory-container">
+    <h2>Our Sweet Memory 💕</h2>
+    
+    <div class="flip-card" id="memory-card">
+      <div class="flip-card-inner">
+        <!-- Front Side -->
+        <div class="flip-card-front">
+          <img id="memory-image" src="hand.jpeg" alt="Memory" />
+        </div>
+        <!-- Back Side -->
+        <div class="flip-card-back" id="memory-text">
+          I know we haven't met yet, but whenever we do, I hope it turns into a fun memory. 😊<br>
+          I'll try to make our first meet something to laugh about later — nothing too fancy, just good vibes. 😄<br>
+          Who knows, maybe it'll be one of those random moments that end up meaning a lot. ✨
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize with first memory
+      window.addEventListener('DOMContentLoaded', function() {
+        const memory = memories[0];
+        const frontDiv = document.querySelector(".flip-card-front");
+        frontDiv.innerHTML = "";
+        
+        if (memory.type === "video") {
+          const video = document.createElement("video");
+          video.src = memory.media;
+          video.controls = true;
+          video.autoplay = true;
+          video.style.width = "100%";
+          video.style.height = "100%";
+          video.style.objectFit = "cover";
+          video.style.borderRadius = "20px";
+          frontDiv.appendChild(video);
+        } else {
+          const img = document.createElement("img");
+          img.src = memory.media;
+          img.alt = "Memory";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "cover";
+          img.style.borderRadius = "20px";
+          img.style.display = "block";
+          frontDiv.appendChild(img);
+        }
+        
+        document.getElementById("memory-text").innerHTML = memory.text;
+      });
+    </script>
+
+    <button id="next-btn" class="next-page-btn" onclick="nextMemory()">
+      Next ➜
+    </button>
+
+    <button id="final-btn" class="next-page-btn hidden" onclick="goToSurprise()">
+      Surprise Inside ✨
+    </button>
+  </div>
+
+  <script>
+const memories = [
+      {
+        media: "hand.jpeg",
+        type: "image",
+        text: "ನಿನ್ನ ಕೈಗೆ ಬಳೆ ನೋಡಲು,<br> ಎಷ್ಟು ಚಂದ ಕಾಣ್ತಿಯ ನೀನು! <br><br>ಬಣ್ಣ ಬಣ್ಣದ ಗಾಜಿನ ಚಿಲಿಪಿಲಿ,<br> ನಗುವಂತೆ ಮೂಡುವುದು ಮನಸು. <br><br>ಕೈಯಲ್ಲಿ ಸಣ್ಣಗೆ ಬಳೆ ಕುಣಿದಾಗ , <br>ಸಂಗೀತ ಕೇಳಿದ ಹಾಗೆ!✨"
+      },
+      {
+        media: "img2.jpg",
+        type: "image",
+        text: "ಬಣ್ಣದ ಬಿಳುಪಿನ ವಸ್ತ್ರದಲಿ, ದೇವತೆಯಂತೆ ಅವಳು ಹೊಳೆವಳು. <br>ಚಂದ್ರನ ಬೆಳಕಿನ ಮೃದು ಕಿರಣ, ನೆಲದಲಿ ನಿಂತ ದೇವಕನ್ಯೆ ಅವಳು. <br><br>ಮುಗುಳುನಗೆಯಲಿ ಶಾಂತಿ ಮೂಡುತಿದೆ, <br>ಕಂಗಳಲಿ ಪ್ರೀತಿ ಉಕ್ಕಿ ಹರಿಯುತಿದೆ. <br>ಬಿಳುಪಿನ ವಸ್ತ್ರದಲಿ ದೇವತೆಯಂತೆ, ನನ್ನ ಹೃದಯದಲಿ ನೆಲೆಸಿ ನಿಂತವಳು."
+      },
+      {
+        media: "img3.jpg",
+        type: "image",
+        text: "ಕೆಂಪು ಗೌನು, ಸರಳ ಉಡುಗೆ, ಹೊಳೆಯುವ ಬೆಡುಗೆ. <br><br>ನಗು ಚಂದ,<br> ಅವಳ ರೂಪಿಗೆ ಮನವೆಲ್ಲ ಬಂಧ. <br><br>ಕೆಂಪು ಬಣ್ಣದಲಿ ಬೆಳಗುವ ತಾರೆ, <br>ನೋಡಿದವರೆಲ್ಲ ಅವಳಿಗಾಗಿ ಸೋತವರೆ."
+      },
+      {
+        media: "eyes1.mp4",
+        type: "video",
+        text: "ಕಣ್ಣುಗಳು ಎಷ್ಟು ಚಂದ! <br>ನಕ್ಷತ್ರದ ಹಾಗೆ ಹೊಳೆಯುತಿವೆ, ಬೆಳಕಿನ ಕಿರಣ ಚೆಲ್ಲುತಿವೆ. <br><br>ಸಾಗರದಷ್ಟು ಆಳವಾಗಿವೆ, ಗುಟ್ಟನ್ನು ಎಷ್ಟೋ ಬಚ್ಚಿಟ್ಟಿವೆ. <br><br>ನನ್ನ ಹೃದಯಕ್ಕೆ ದಾರಿ ತೋರುತಿವೆ, ಪ್ರೀತಿಯಿಂದ ಸೆಳೆಯುತಿವೆ."
+      },
+      {
+        media: "eyes2.mp4",
+        type: "video",
+        text: "ನಿನ್ನ ಕಣ್ಣೋಟ ಚೆಂದ, <br>ಮಾತಿಲ್ಲದೆ ಗೆದ್ದೆ ತಂದ.<br> <br>ನಗುತಿದೆ, ಅಳುತಿದೆ ಕಣ್ಣು, ಎಲ್ಲವನು ಹೇಳುವ ಬಣ್ಣ.<br><br> ಪ್ರೀತಿ ಉಕ್ಕಿದೆ ಕಣ್ಣಲಿ, <br>ನೋವ ಮರೆಮಾಚಿದೆ ಅಲ್ಲಿ. <br><br>ನಕ್ಷತ್ರದ ಹೊಳಪಂತೆ ಕಣ್ಣು, <br>ಮನಸಿಗೆ ಬೆಳಕಂತೆ ಅದು ಬಣ್ಣ."
+      },
+      {
+        media: "saree.mp4",
+        type: "video",
+        text: "ರೇಷ್ಮೆ ಸೀರೆಯಲಿ ಚೆಲುವೆ ನೀನು,<br> ನಕ್ಷತ್ರ ಮಿಂಚಂತೆ ನಗುತಿಹೆ ನೀನು.<br> ಗೆಜ್ಜೆ ಸಪ್ಪಳ ಕೇಳಿ ಮನವು ಕುಣಿಯುತಿದೆ, <br>ಕಣ್ಣೋಟದಿ ಪ್ರೀತಿಯ ಸೆಲೆಯು ಹರಿಯುತಿದೆ. <br>ಬಂಗಾರದ ಬಳೆ ಕೈಗೆಷ್ಟು ಚಂದ, <br>ಮುಂಗುರುಳು ಹಣೆಗೆ ಭಾಗ್ಯದ ಬಂಧ.<br> ನೀರ ಮೇಲಿನ ದೀಪದಂತೆ ಮುಖವು ಬೆಳಗುತಿದೆ,<br> ನಿನ್ನ ನೋಡಲು ಕಣ್ಣಿಗೆ ಹಬ್ಬದ ಸಂಭ್ರಮವಿದೆ."
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function nextMemory() {
+      currentIndex++;
+      if (currentIndex < memories.length) {
+        updateMemory();
+      } else {
+        // Show final button after last memory
+        document.getElementById("next-btn").classList.add("hidden");
+        document.getElementById("final-btn").classList.remove("hidden");
+      }
+    }
+
+    function updateMemory() {
+      const memory = memories[currentIndex];
+      const frontDiv = document.querySelector(".flip-card-front");
+      frontDiv.innerHTML = "";
+      
+      if (memory.type === "video") {
+        const video = document.createElement("video");
+        video.src = memory.media;
+        video.controls = true;
+        video.autoplay = true;
+        video.style.width = "100%";
+        video.style.height = "100%";
+        video.style.objectFit = "cover";
+        video.style.borderRadius = "20px";
+        frontDiv.appendChild(video);
+      } else {
+        const img = document.createElement("img");
+        img.src = memory.media;
+        img.alt = "Memory";
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "20px";
+        img.style.display = "block";
+        frontDiv.appendChild(img);
+      }
+      
+      document.getElementById("memory-text").innerHTML = memory.text;
+    }
+
+    function goToSurprise() {
+      window.location.href = "mv_memories.html";
+    }
+  </script>
+  </div>
+</body>
+</html>

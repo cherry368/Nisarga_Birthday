@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Your Special Birthday Wish — Nisarga</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg1:#ffdde1;
+      --bg2:#fbc2eb;
+      --paper:#fffaf8;
+      --accent:#9b3b61;
+      --muted:#6c4554;
+      --heart-color1: #ff6b93;
+      --heart-color2: #ff9ab6;
+      --container-max: 760px; /* increased size */
+    }
+    html,body{height:100%;margin:0}
+    body{
+      margin:0;
+      padding:20px;
+      background: linear-gradient(135deg,var(--bg1),#ee9ca7,var(--bg2));
+      font-family: 'Dancing Script', 'Georgia', serif;
+      color:#47303f;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      overflow:hidden; /* hearts will overflow fixed layer */
+    }
+
+    /* Paper container (larger) */
+    .paper-container{
+      width: calc(100% - 36px);
+      max-width: var(--container-max);
+      background: var(--paper);
+      padding: clamp(28px, 4.2vw, 44px); /* responsive padding */
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(120,50,80,0.14);
+      border: 1px solid rgba(230,170,190,0.8);
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    h2{
+      margin:0;
+      font-size: clamp(2.2rem, 4.6vw, 3.4rem); /* slightly larger */
+      color: var(--accent);
+      text-align:center;
+      line-height:1;
+      font-weight:900;
+    }
+
+    /* Lined paper area */
+    .letter-book{
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 1.5rem,
+          rgba(215,166,184,0.04) 1.54rem
+        );
+      padding: 8px 10px;
+      border-left: 4px solid rgba(215,166,184,0.22);
+      border-radius: 8px;
+      min-height: 360px; /* increased to avoid hidden text */
+      max-height: calc(70vh); /* prevents overflow off-screen */
+      overflow: hidden;
+    }
+
+    /* Pages: scrollable when long */
+    .letter-page{
+      display:none;
+      white-space: pre-wrap;
+      color: #5a3240;
+      /* INCREASED FONT SIZE & BOLDNESS as requested */
+      font-size: clamp(1.32rem, 3.0vw, 1.8rem); /* bigger */
+      line-height: 1.95;                           /* taller lines for readability */
+      padding-right: 8px;
+      height: calc(70vh - 8.5rem); /* keep inner scrollable area */
+      overflow: auto;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+      font-weight: 800;       /* heavier weight for better visibility */
+      letter-spacing: 0.5px;  /* slightly more spacing */
+    }
+    .letter-page.active{ display:block; animation: fadeIn .45s ease; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+
+    /* pager and buttons */
+    .book-controls{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      margin-top: 6px;
+      flex-wrap:wrap;
+    }
+    .book-controls button{
+      padding: 10px 20px;
+      font-size: clamp(0.98rem,1.8vw,1.12rem);
+      border-radius: 28px;
+      border: 2px solid rgba(169,108,134,0.9);
+      background: linear-gradient(90deg,#ffddee,#ffc4dc);
+      color: #7a2f50;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(210,90,140,0.08);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .book-controls button:disabled{ opacity:.45; cursor:default; box-shadow:none; background:#ffecf2; color:#aa6b82 }
+    .book-controls button:hover:not(:disabled){ transform:translateY(-2px); box-shadow: 0 10px 26px rgba(200,60,120,0.12); }
+
+    .music-row{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:6px; }
+    .music-toggle{
+      padding:8px 14px;
+      border-radius:20px;
+      border:0;
+      background: linear-gradient(90deg,var(--heart-color1),var(--heart-color2));
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(255,80,130,0.12);
+    }
+
+    /* hearts layer (full screen, SVG hearts) */
+    .hearts-layer{
+      pointer-events:none;
+      position: fixed;
+      inset: 0;
+      z-index:5;
+      overflow:visible;
+    }
+    .floating-heart{
+      position:absolute;
+      width:36px;
+      height:36px;
+      transform-origin:center;
+      opacity:0.95;
+      will-change: transform, opacity, top, left;
+      filter: drop-shadow(0 6px 12px rgba(220,80,140,0.12));
+    }
+    /* responsive tweaks */
+    @media (max-width:720px){
+      .paper-container{ padding:20px; }
+      .letter-book{ min-height: 300px; max-height: calc(66vh); }
+      .letter-page{ height: calc(66vh - 7.5rem); font-size: clamp(1.08rem,3.6vw,1.36rem); line-height:1.8 }
+      h2{ font-size: clamp(1.8rem,6vw,2.8rem); }
+    }
+    @media (max-width:420px){
+      .paper-container{ padding:16px; gap:10px; }
+      .letter-book{ min-height: 260px; max-height: calc(60vh); }
+      .letter-page{ height: calc(60vh - 7.5rem); font-size: clamp(1.0rem,3.8vw,1.24rem); line-height:1.7 }
+      h2{ font-size: clamp(1.6rem,8vw,2.2rem); }
+    }
+
+    /* small focus outline for keyboard users */
+    button:focus { outline: 3px solid rgba(155,59,97,0.15); outline-offset: 3px; }
+
+  </style>
+</head>
+<body>
+  <!-- falling hearts layer -->
+  <div id="heartsLayer" class="hearts-layer" aria-hidden="true"></div>
+
+  <div class="paper-container" role="main" aria-labelledby="pageTitle">
+    <h2 id="pageTitle">Your Special Birthday Wish 🎉</h2>
+
+    <div class="letter-book" aria-live="polite">
+      <div id="letterPage1" class="letter-page active" aria-hidden="false"></div>
+      <div id="letterPage2" class="letter-page" aria-hidden="true"></div>
+      <div id="letterPage3" class="letter-page" aria-hidden="true"></div>
+    </div>
+
+    <div class="book-controls" role="group" aria-label="Page navigation">
+      <button id="prevPageBtn" type="button" aria-label="Previous page">← Prev</button>
+      <button id="nextPageBtn" type="button" aria-label="Next page">Next →</button>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto"></audio>
+  </div>
+
+  <script>
+    /* ============================
+       Page content (split into 3)
+       ============================ */
+    const page1Text = `
+Hey Nisarga,
+  How are you? I’m hoping this birthday is your best yet 
+and that the year ahead becomes the brightest one you’ve 
+                                ever had.
+
+On your special day, I wanted to share a few words from    
+  the heart. Do you remember how we met in M1 class? 
+      You used to come in that green dress (😊) 
+
+I kept wanting to talk to you but was too shy. And of course that Guldu Varun started teasing me (😂) 
+                    sweet memory, right?
+
+Since then we’ve had days when we argued a bit, days we respected each other, days you helped me with studies, and many more moments that words can’t fully capture.
+`.trim();
+
+    const page2Text = `
+    
+     I know I’m just a friend to you, and I respect that 
+completely. Still, there’s something I want to say, and I 
+           hope it doesn’t hurt you in any way. 
+
+I really admire your overloaded cuteness and how beautiful you look in simple dressing — like when you come in a kurta. Your natural style means more to me than any heavy makeup or dress. You’re beautiful as you are; you don’t need makeup at all (but if you enjoy it, go for it — just don’t feel you have to). By God’s grace you already shine.
+
+Note: this is only a gentle suggestion, not an argument or me trying to control your choices. I’m sorry if it ever felt that way.
+
+I do feel a little sad that everyone else already has a great photo with you — a memory they’ll always cherish  while I’m still waiting for that moment. I hope one day I’ll get that chance too. (Of course it’s totally your choice; if it happens, I’d be grateful.)
+`.trim();
+
+    const page3Text = `
+We kept saying we’d make a few reels and build memories, but it never happened. Honestly, i thought to ask only shall we antha but I was afraid to ask 
+I worried how you might feel and whether it could be misunderstood (🥺). Thank you for playing games with me that day; I really enjoyed that time. I love spending time with you, but I never said it out loud because I didn’t want to risk our good bond.
+
+You once mentioned you have a boyfriend — he’s lucky to have someone as charming as you. And hey, if by any chance something goes wrong, you can always count on me — I will be there for you (🙂).
+
+I’m genuinely inspired by how you stand up for yourself and make decisions with confidence. That’s a powerful quality — keep it always. A small suggestion: when things get tense, try explaining your situation first; friendships are precious — never let them go easily.
+
+Finally, thank you for feeding me and paying for me whenever I asked! I missed the ice cream that day, but that’s okay — since you’re coming tomorrow, I’ll definitely ask again (😄).
+
+Finally yene agali, henge agali — if you can, stay with me as at least one good friend (❤😊😢).
+
+Happy Birthday, Nisarga.
+May God bless you with peace, courage, laughter, and every good thing your heart is praying for. You’re talented, kind, strong, and effortlessly bright — keep shining the way you do.
+
+— Charan (❤️🌹)
+`.trim();
+
+    // populate DOM
+    const p1 = document.getElementById('letterPage1');
+    const p2 = document.getElementById('letterPage2');
+    const p3 = document.getElementById('letterPage3');
+    p1.textContent = page1Text;
+    p2.textContent = page2Text;
+    p3.textContent = page3Text;
+
+    // pagination
+    const pages = [p1,p2,p3];
+    let pageIndex = 0;
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+
+    function updatePages(){
+      pages.forEach((el,i)=>{
+        const active = i === pageIndex;
+        el.classList.toggle('active', active);
+        el.setAttribute('aria-hidden', String(!active));
+      });
+      prevBtn.disabled = pageIndex === 0;
+      nextBtn.disabled = pageIndex === pages.length - 1;
+      // ensure visible (avoid hidden overflow)
+      pages[pageIndex].scrollTop = 0;
+    }
+    prevBtn.addEventListener('click', ()=>{ if(pageIndex>0) pageIndex--; updatePages(); });
+    nextBtn.addEventListener('click', ()=>{ if(pageIndex < pages.length-1) pageIndex++; updatePages(); });
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowLeft'){ prevBtn.click(); }
+      else if(e.key === 'ArrowRight'){ nextBtn.click(); }
+      else if(e.key === 'Escape'){ /* reserved */ }
+    });
+
+    /* ============================
+       Hearts: SVG hearts for crisp visuals
+       ============================ */
+    const heartsLayer = document.getElementById('heartsLayer');
+    let heartsInterval = null;
+
+    function createSVGHeart(size, color){
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute('viewBox','0 0 24 24');
+      svg.setAttribute('width', size);
+      svg.setAttribute('height', size);
+      svg.classList.add('floating-heart');
+      svg.innerHTML = `<path fill="${color}" d="M12 21s-7.5-4.9-9.5-9.2C-0.5 6.8 4 2 7.5 4.7 9 6 10.5 3 12 4.7c1.5-1.7 3 1.3 4.5-0.6C20 2 24.5 6.8 21.5 11.8 19.5 16.1 12 21 12 21z"/>`;
+      return svg;
+    }
+
+    function spawnHeart(){
+      const size = 18 + Math.random()*30; // 18-48
+      const color = Math.random() > 0.5 ? getComputedStyle(document.documentElement).getPropertyValue('--heart-color1').trim() : getComputedStyle(document.documentElement).getPropertyValue('--heart-color2').trim();
+      const heart = createSVGHeart(size, color || '#ff6b93');
+      const startX = Math.random() * 92 + 4; // avoid exact edges
+      heart.style.left = startX + '%';
+      heart.style.top = '-60px';
+      heart.style.opacity = String(0.85 + Math.random()*0.15);
+      heartsLayer.appendChild(heart);
+
+      // animation settings
+      const duration = 4200 + Math.random()*4800; // 4.2s - 9s
+      const drift = (Math.random()*40 - 20); // -20 to 20 percent drift
+      const endLeft = Math.min(96, Math.max(2, startX + drift));
+      requestAnimationFrame(()=> {
+        heart.style.transition = `transform ${duration}ms ease-out, top ${duration}ms linear, left ${duration}ms linear, opacity ${Math.floor(duration/2)}ms linear`;
+        heart.style.top = (window.innerHeight + 120) + 'px';
+        heart.style.left = endLeft + '%';
+        heart.style.opacity = '0.06';
+        heart.style.transform = `rotate(${(Math.random()*60-30)}deg) scale(${0.8 + Math.random()*0.6})`;
+      });
+
+      setTimeout(()=> { heart.remove(); }, duration + 500);
+    }
+
+    function startHearts(){
+      if(heartsInterval) return;
+      heartsInterval = setInterval(()=> {
+        spawnHeart();
+        if(Math.random() < 0.5) spawnHeart();
+      }, 420);
+    }
+    function stopHearts(){
+      if(heartsInterval){ clearInterval(heartsInterval); heartsInterval = null; }
+    }
+
+    window.addEventListener('load', ()=> { startHearts(); updatePages(); });
+    document.addEventListener('visibilitychange', ()=> { if(document.hidden) stopHearts(); else startHearts(); });
+
+    // initial call to ensure pages are set
+    updatePages();
+  </script>
+</body>
+</html>

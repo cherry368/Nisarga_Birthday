@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Celebrate Guruji! — Pink Theme</title>
+  <style>
+    :root {
+      /* Pink pastel color palette */
+      --bg1: #ffe2f0;   /* lightest pink */
+      --bg2: #ffc1e3;   /* soft pink */
+      --accent: #ff59b9; /* main accent (bright pink) */
+      --accent2: #fa8f98; /* secondary accent (peachy-pink) */
+      --muted: #b65690; /* for faded/lighter subtitle text */
+      --panel-bg: rgba(255, 243, 251, 0.92); /* semi white-pink for main card */
+      --text-dark: #972864; /* deep mauve for text */
+    }
+
+    *{box-sizing:border-box}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter,system-ui,Segoe UI,Roboto,Arial;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2) 80%);
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--panel-bg);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 14px 44px rgba(255, 98, 162, 0.12), 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 2rem;
+      text-align: center;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-title {
+      color: var(--muted);
+      text-align: center;
+      margin: 12px 0 20px 0;
+      font-weight: 600;
+      font-size: 1.15rem;
+    }
+
+    /* balloon stage */
+    .balloon-stage {
+      position: relative;
+      height: 420px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,160,240,0.07), rgba(242, 54,145,0.04));
+      margin: 0 auto 20px;
+      box-shadow: 0 2px 8px rgba(255, 20, 100, 0.04) inset;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -160px;
+      width: 92px;
+      height: 120px;
+      border-radius: 50% 50% 46% 46%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      transform-origin: center 70%;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(255, 62, 131, 0.12);
+      transition: transform .18s ease,opacity .4s ease;
+      border: 2.5px solid #fff2fa;
+    }
+    .balloon .knot {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 10px;
+      border-radius: 2px;
+      background: #fd82bc;
+    }
+    .balloon .string {
+      position: absolute;
+      bottom: -190px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 180px;
+      background: linear-gradient(var(--accent2),#ffcef5 70%,#ffffff00);
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 1.07rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 32px rgba(255,90,180,0.16);
+      transition: transform .13s, box-shadow .13s;
+    }
+    .btn:hover { 
+      transform: translateY(-2.5px) scale(1.03);
+      box-shadow: 0 18px 40px rgba(250,90,180,0.16);
+    }
+
+    .cake-wrap {
+      display: none;
+      margin-top: 18px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .cake-stage {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .plate {
+      width: 420px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 30%, #fff8fa, #ffeaf5 70%, #ffd4eb 95%);
+      box-shadow: 0 10px 30px rgba(255, 80,170, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .cake {
+  width: 360px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffd6e8, #ff9fca 90%);
+  position: relative;
+  padding-bottom: 28px;
+  box-shadow: 0 20px 45px rgba(255, 90, 160, 0.35);
+}
+
+.layer {
+  height: 48px;
+  margin: 6px 18px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffb6d0, #ff81b3);
+  box-shadow: inset 0 3px 0 rgba(255, 182, 214, 0.6);
+}
+
+.cream {
+  height: 6px;
+  margin: 0 12px;
+  background: linear-gradient(180deg, #ffe6f2 80%, #ffd1e8 100%);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(255, 230, 244, 0.8) inset;
+}
+    .candles {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    .candle {
+      width: 8px; height: 34px; border-radius: 3px;
+      position: relative; display: block
+    }
+    .flame {
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      width: 10px; height: 12px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 30%, #fff2a6,#ffb36a)
+    }
+    .slice {
+  position: absolute;
+  right: 22px;
+  bottom: 0;
+  width: 96px;
+  height: 118px;
+  background: linear-gradient(180deg, #ffc0e0, #ff8dba 90%);
+  border-radius: 10px;
+  transform-origin: left bottom;
+  transition: transform 0.9s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.5s;
+  box-shadow: 0 14px 30px rgba(255, 80, 150, 0.28);
+}
+    .slice.cut {
+  transform: translateX(260px) rotate(-28deg) scale(0.98);
+  opacity: 0.98;
+}
+    .knife {
+      width: 200px;
+      height: 18px;
+      background: linear-gradient(90deg,#ffd8f2,#d396bf);
+      border-radius:10px; position:relative;
+      transform-origin:left center;
+      box-shadow:0 8px 18px rgba(246,70,180,0.10);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer
+    }
+    .knife .handle {
+      width: 46px; height: 18px; border-radius: 6px;
+      background: linear-gradient(90deg,var(--accent),#ffb6e6);
+      position:absolute;right:-56px;top:0;
+      box-shadow:0 5px 12px rgba(250, 90,170, 0.09)
+    }
+    .knife .blade-tip {
+      width:10px;height:14px;
+      background: linear-gradient(180deg,#ffffff,#ea98c3);
+      position:absolute;left:8px;border-radius:2px
+    }
+    .note {
+  margin-top: 18px;
+  color: #ff2e84; /* bright pink for note text */
+  font-weight: 800;
+  display: none;
+  font-size: 1.12rem;
+  text-align: center;
+  text-shadow: 0 0 8px #fff0f8;
+}
+    .next-cta{
+      margin-top:14px;display:none
+    }
+    .cut-btn{
+      display:none;margin:0 auto 12px auto
+    }
+    #confettiCanvas {
+      position:fixed;left:0;top:0;pointer-events:none;width:100%;height:100%;z-index:9999
+    }
+    @media(max-width:720px){
+      .plate{width:300px}.cake{width:260px}.knife{width:150px}.slice{width:72px;height:92px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Balloon Blasting & Cake Cutting</h1>
+    <p class="section-title" id="stageTitle">Pop all the balloons to reveal the cake 🎈</p>
+    <div id="balloonStage" class="balloon-stage" aria-label="Balloon stage"></div>
+    <div class="controls" id="controls"></div>
+    <div style="text-align:center">
+      <button class="btn cut-btn" id="cutBtn">Let's cut the cake 🎂</button>
+    </div>
+    <div class="cake-wrap" id="cakeWrap" aria-hidden="true">
+      <div class="cake-stage">
+        <p class="section-title">Cake Cutting — click the slice to cut the cake</p>
+        <div class="plate" aria-hidden="true">
+          <div class="cake" id="cake">
+            <div class="candles">
+              <div class="candle" style="background:#fd82bc"><div class="flame"></div></div>
+              <div class="candle" style="background:#fa8f98"><div class="flame"></div></div>
+              <div class="candle" style="background:#ff59b9"><div class="flame"></div></div>
+            </div>
+            <div class="layer"></div>
+            <div class="cream"></div>
+            <div class="layer"></div>
+            <div class="cream"></div>
+            <div class="layer"></div>
+            <div class="slice" id="slice" title="Click to cut the cake"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px;">
+          <div class="knife" id="knife" title="Click me to slice">
+            <div class="blade-tip"></div>
+            <div class="handle"></div>
+          </div>
+        </div>
+        <p class="note" id="cakeNote">Yahhh — it’s time to eat cake! Make sure you save me a slice too 🍰</p>
+        <div class="next-cta" id="nextCta">
+          <button id="nextBtn" class="btn">Let's see what's next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <canvas id="confettiCanvas"></canvas>
+  <script>
+  (function(){
+    // Config
+    const BALLOON_COUNT = 4;
+    const SIZE_MIN = 56; const SIZE_MAX = 110; const MAX_RISE_RATIO = 0.55; const SPEED_MIN = 0.6; const SPEED_MAX = 1.6;
+
+    // DOM
+    const stage = document.getElementById('balloonStage');
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const ctx = confettiCanvas.getContext && confettiCanvas.getContext('2d');
+    const cutBtn = document.getElementById('cutBtn');
+    const cakeWrap = document.getElementById('cakeWrap');
+    const slice = document.getElementById('slice');
+    const knife = document.getElementById('knife');
+    const cakeNote = document.getElementById('cakeNote');
+    const nextCta = document.getElementById('nextCta');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let rafId = null, popped = 0, balloons = [], knifeArmed = false, cakeCut = false;
+
+    function resizeCanvas(){ confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; }
+    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+
+    function popAt(x,y,count=30){ if(!ctx) return; const pieces=[]; for(let i=0;i<count;i++){ pieces.push({ x,y, vx:(Math.random()-0.5)*8, vy:(Math.random()*-6)-1, size:6+Math.random()*8, color:['#ff59b9','#fa8f98','#fd82bc','#fae7e7','#ffd4eb','#b65690'][Math.floor(Math.random()*6)], rot:Math.random()*360, dr:(Math.random()-0.5)*10, life: 90 + Math.floor(Math.random()*80) }) } (function frame(){ ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); for(let p of pieces){ p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.rot += p.dr; p.life--; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180); ctx.fillStyle = p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6); ctx.restore(); } for(let i=pieces.length-1;i>=0;i--) if(pieces[i].life<=0) pieces.splice(i,1); if(pieces.length>0) requestAnimationFrame(frame); })(); }
+
+    function createBalloons(){ 
+      cancelAnimationFrame(rafId); 
+      stage.innerHTML=''; 
+      balloons=[]; popped=0; 
+      const rect = stage.getBoundingClientRect(); 
+      const stageHeight = rect.height; 
+      const maxUp = Math.max(80, Math.round(stageHeight * MAX_RISE_RATIO)); 
+      for(let i=0;i<BALLOON_COUNT;i++){ 
+        const b = document.createElement('div'); 
+        b.className='balloon'; 
+        const left = 4 + Math.random()*92; 
+        b.style.left = left + '%'; 
+        const size = Math.round(rand(SIZE_MIN, SIZE_MAX)); 
+        b.style.width = size + 'px'; 
+        b.style.height = Math.round(size * 1.2) + 'px'; 
+        const colorPal = [
+          ['#ff59b9','#fa8f98'],
+          ['#fd82bc','#ffd4eb'],
+          ['#fa8f98','#fae7e7'],
+          ['#b65690','#f5d1ef']
+        ];
+        const c = colorPal[i % colorPal.length]; 
+        b.style.background = `linear-gradient(180deg, ${c[0]}, ${c[1]})`; 
+        const knot = document.createElement('div'); 
+        knot.className='knot'; 
+        knot.style.background = c[1]; 
+        knot.style.width = '14px'; 
+        knot.style.height='10px'; 
+        knot.style.position='absolute'; 
+        knot.style.bottom='-10px'; 
+        knot.style.left='50%'; 
+        knot.style.transform='translateX(-50%)'; 
+        knot.style.borderRadius='2px'; 
+        const string = document.createElement('div'); 
+        string.className='string'; 
+        string.style.position='absolute'; 
+        string.style.bottom='-190px'; 
+        string.style.left='50%'; 
+        string.style.transform='translateX(-50%)'; 
+        string.style.width='2px'; 
+        string.style.height='180px'; 
+        string.style.background='linear-gradient(var(--accent2),#ffcef5 70%,#ffffff00)'; 
+        b.appendChild(knot); 
+        b.appendChild(string); 
+        b._y = 0; b._dir = -1; b._speed = rand(SPEED_MIN, SPEED_MAX); 
+        b._maxUp = maxUp; b._popped = false; 
+        b.addEventListener('click', (ev)=>{
+          if(b._popped) return; 
+          b._popped = true; 
+          b.classList.add('popped'); 
+          popped++; 
+          popAt(ev.clientX, ev.clientY, 36); 
+          b.style.transform = `translateY(${b._y}px) scale(0.18) rotate(${Math.round(rand(18,40))}deg)`; 
+          b.style.opacity = '0'; 
+          setTimeout(()=>{ if(b.parentNode) b.parentNode.removeChild(b); }, 420); 
+          if(popped >= BALLOON_COUNT) finishBalloons(); 
+        }); 
+        stage.appendChild(b); 
+        balloons.push(b); 
+      } 
+      animateBalloons(); 
+    }
+
+    function animateBalloons(){ 
+      function frame(){ 
+        for(let b of balloons){ 
+          if(b._popped) continue; 
+          b._y += b._dir * b._speed; 
+          if(b._y <= -b._maxUp){ b._y = -b._maxUp; b._dir = 1; } 
+          else if(b._y >= 0){ b._y = 0; b._dir = -1; b._speed = rand(SPEED_MIN, SPEED_MAX); } 
+          b.style.transform = `translateY(${b._y}px)`; 
+          if(!b._popped) b.style.opacity = '1'; 
+        } 
+        rafId = requestAnimationFrame(frame); 
+      } 
+      cancelAnimationFrame(rafId); rafId = requestAnimationFrame(frame); 
+    }
+
+    function finishBalloons(){ // show cut button (do not show cake yet)
+      cutBtn.style.display = 'inline-block'; 
+      document.getElementById('stageTitle').textContent = 'All balloons popped! Ready for cake?'; 
+      popAt(window.innerWidth/2, window.innerHeight/3, 120); 
+    }
+
+    // when user clicks "Let's cut the cake" button -> hide balloons and show cake area
+    cutBtn.addEventListener('click', ()=>{
+      stage.style.display = 'none';
+      document.getElementById('controls').style.display = 'none';
+      cutBtn.style.display = 'none';
+      cakeWrap.style.display = 'flex';
+      cakeWrap.setAttribute('aria-hidden','false');
+      document.getElementById('stageTitle').textContent = 'Cake is here — click the slice to cut it';
+    });
+
+    // knife arming visual (optional)
+    knife.addEventListener('click', ()=>{
+      if(cakeCut) return;
+      knife.classList.add('armed');
+      knife.style.transform = 'translateY(-6px) rotate(-4deg)';
+      setTimeout(()=>knife.style.transform='',250);
+    });
+
+    // slice click to cut and split into piece
+    slice.addEventListener('click', (ev)=>{
+      if(cakeCut) return;
+      cakeCut = true;
+      slice.classList.add('cut');
+      popAt(window.innerWidth/2, window.innerHeight/2, 180);
+      setTimeout(()=>{
+        cakeNote.style.display = 'block';
+        nextCta.style.display = 'block';
+      }, 700);
+    });
+
+    // next button -> go to memories
+    nextBtn && nextBtn.addEventListener('click', ()=>{
+      window.location.href = 'memories.html';
+    });
+
+    // start
+    createBalloons();
+  })();
+  </script>
+</body>
+</html>
